@@ -3,16 +3,26 @@
         <div class="container-login100" style="background-image: url('images/bg-02.jpg')">
             <div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
                 <form @submit.prevent="login" class="login100-form validate-form flex-sb flex-w">
-                    <span class="login100-form-title p-b-53">
-                        Login Perpustakaan <span class="tes">cuy</span>
+                    <span class="login100-form-title">
+                        Sign Up Perpustakaan
                     </span>
 
-                    <div class="p-b-9">
+                    <div class="p-t-31 p-b-9">
                         <span class="txt1">
-                            <span class="warna_email">Email</span>
+                            Nama
                         </span>
                     </div>
                     <div class="wrap-input100 validate-input" data-validate="Username is required">
+                        <input class="input100" type="text" autocomplete="off" required name="username" v-model="name">
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="p-t-31 p-b-9">
+                        <span class="txt1">
+                            Email
+                        </span>
+                    </div>
+                    <div class="wrap-input100 validate-input" data-validate="Email is required">
                         <input class="input100" type="email" autocomplete="off" required name="email" v-model="email">
                         <span class="focus-input100"></span>
                     </div>
@@ -23,7 +33,7 @@
                         </span>
                     </div>
                     <div class="wrap-input100 validate-input" data-validate="Password is required">
-                        <input class="input100" type="password" required name="password" v-model="password">
+                        <input class="input100" type="password" required name="pass" v-model="password">
                         <span class="focus-input100"></span>
                     </div>
 
@@ -35,45 +45,19 @@
 
                     <div class="w-full text-center p-t-55">
                         <span class="txt2">
-                            Not a member?
+                            Have account?
                         </span>
 
-                        <router-link to="/signup" class="txt2 bo1">
-                            Sign up now
+                        <router-link to="/login" class="txt2 bo1">
+                            Login now
                         </router-link>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
-
-
-        <!-- partial:index.partial.html -->
-        <!-- <div class="container" onclick="onclick">
-            <div class="top"></div>
-            <div class="bottom"></div>
-            <div class="center">
-                <h2>Please Sign In</h2>
-                <input type="email" placeholder="email" />
-                <input type="password" placeholder="password" />
-                <h2>&nbsp;</h2>
-            </div>
-        </div> -->
-        <!-- partial -->
-
 </template>
     
-    <style>
-        /* .tes{
-            color: red;
-        }
-
-        .warna_email{
-            color: aqua;
-        } */
-</style>
-
 <script>
 import axios from 'axios'
 import Vue from 'vue'
@@ -84,6 +68,8 @@ Vue.use(axios)
 export default {
     data() {
         return {
+            account: {},
+            name: '',
             email: '',
             password: ''
         }
@@ -105,36 +91,33 @@ export default {
         }
     },
     methods: {
-        login() {
-            var data = {
-                email: this.email,
-                password: this.password
+        login(){
+            let data = {
+                name : this.name,
+                email : this.email,
+                password : this.password
             }
-            axios.post('http://localhost:8000/api/login', data)
-                .then(
-                    (response) => {
+            axios.post("http://localhost:8000/api/register" , data)
+            .then(
+                (response) => {
+                    this.$store.commit('setToken', response.data.token)
+                    swal({
+                        icon: "success"
+                    })
+                    location.href = '/'
+                }
+            )
 
-                        // localStorage.setItem('token', response.data.token)
-                        // localStorage.setItem('status', true)
-                        // this.$emit('authenticated', true)
-                        this.$store.commit('setToken', response.data.token)
-                        location.href = '/'
-
-                    }
-                )
-                .catch(
-                    (err) => {
-                        console.log(err)
-                        console.log("Password salah")
-                        swal('Email atau password salah', {
-                            icon: 'error'
-                        })
-                    }
-                )
+            .catch(
+                (err) => {
+                    console.log(err)
+                    swal({
+                        title: "Error",
+                        icon: "error"
+                    })
+                }
+            ) 
         }
-    },
-    mounted() {
-        // this.$emit('aunthenticated', false)
     }
 }
 </script>

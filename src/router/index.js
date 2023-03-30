@@ -13,6 +13,7 @@ import tambahpinjam from '../components/peminjaman/TambahPeminjaman.vue'
 import denda from '../components/peminjaman/DendaView.vue'
 import history from '../components/peminjaman/HistoryView.vue'
 import login from '../views/LoginView.vue'
+import signup from '../views/SignUp.vue'
 import notfound from '../views/NotFound.vue'
 
 Vue.use(VueRouter)
@@ -115,6 +116,10 @@ const routes = [
   {
     path: '/login',
     component: login,
+  },
+  {
+    path: '/signup',
+    component: signup
   },
   {
     path: '*',
