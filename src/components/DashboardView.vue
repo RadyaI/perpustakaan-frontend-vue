@@ -62,16 +62,24 @@ export default {
                     const data = response.data.map(item => item.jumlah_pinjam)
                     const nama = response.data.map(item => item.judul_buku)
 
+                    let colors = []
+                    for (let i = 0; i < data.length; i++) {
+                        let color = '#' + Math.floor(Math.random() * 16777215).toString(16)
+                        colors.push(color)
+                    }
+
                     const chartData = {
                         labels: nama,
                         datasets: [{
                             data: data,
-                            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+                            backgroundColor: colors
                         }]
                     }
 
+
                     new Chart(document.getElementById('piechart'), {
-                        type: 'doughnut',
+                        type: 'bar',
+                        labels: 'Data Buku',
                         data: chartData,
                         options: {
                             responsive: true
