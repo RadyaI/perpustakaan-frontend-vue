@@ -71,7 +71,7 @@ export default {
                     }
 
                     new Chart(document.getElementById('piechart'), {
-                        type: 'bar',
+                        type: 'doughnut',
                         data: chartData,
                         options: {
                             responsive: true
